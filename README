@@ -1,0 +1,79 @@
+# Written by Ankita Patra 
+# Bu id - B01101280
+# This is the README file for my code 
+
+
+Simple Lexer and Parser : 
+
+This project implements a simple Lexer and Parser that tokenizes and parses a basic language supporting boolean logic expressions and function definitions.
+- A more sophisticated parser based on an EBNF grammar and without the associativity problem. It also supports
+much more operations.
+
+
+Overview :
+
+The code is divided into several main components:
+- Token: Represents individual tokens produced by the Lexer.
+- Lexer: A simple regex-based lexer that converts the input string into tokens.
+- LexerError: Custom exception for handling unexpected characters during tokenization.
+- Parser: A parser that processes a list of tokens to build an abstract syntax tree (AST).
+ 
+The Lexer supports tokenizing:
+- Boolean values (`true`, `false`)
+- Identifiers (variable/function names)
+- Logical operators (`&`, `|`, `~`)
+- Parentheses and commas.
+
+The Parser can process:
+- Function definitions (`fn` keyword)
+- Logical expressions (using `AND`, `OR`, `NOT` operators)
+- Function calls.
+
+
+## How to Run
+
+1. Ensure Python 3.x installed.
+2. Make sure in the portal what ever test input is there its should execute properlly 
+    sh python3 ll.py < input.txt
+
+    we need to follow """Standard Input, Standard Output, Standard Error""" part which is mentioned in the project 1 part .
+    
+
+The program will print the JSON-formatted AST to the console.
+
+## Lexer Rules
+
+- BOOLEAN: Matches `true` or `false`
+- ID: Matches variable names and function names (alphanumeric and underscores)
+- AND: Matches the `&` symbol
+- OR: Matches the `|` symbol
+- NOT: Matches the `~` symbol
+- LPAREN: Matches the `(` symbol
+- RPAREN: Matches the `)` symbol
+- COMMA: Matches the `,` symbol
+
+## Example Input and Output
+
+### Input:
+it present in
+ this path -> index of /cs571/project/prj1/extra/tests
+
+ ## Example of input
+
+ # check for boolean literal, comment and whitespace
+
+  true
+
+  # output
+  [
+  {
+    "tag": "bool",
+    "value": "true"
+  }
+]
+
+- file needed :
+        prj1-sol/README
+        prj1-sol/ll.ebnf
+        prj1-sol/make.sh
+        prj1-sol/run.sh

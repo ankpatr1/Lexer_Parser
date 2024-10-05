@@ -1,0 +1,132 @@
+//written by Ankita patra 
+//B-number -B01101280
+// EBNF grammar for the LL language
+
+/***
+    I wrote this using few keypoints which I define below->
+        
+        Terminals -> basic symbol or tokens
+        non-terminals -> syntactic or phrases in my code 
+        production rules -> expain each non terminal means expressions, statements, and declarations from 
+        its different pats like bulding block , components, sub-elements,and child elements etc.
+        LHS and RHS (left to right  sequence)
+
+**/
+/***
+        in my program which language I used that includes function definitions, boolean literals and  expressions. 
+        It provides a formal way to describe the structure of the language, which can be used for parsing and syntax analysis.
+**/
+
+
+(* A program consists of an expression optionally followed by a newline and another program. *)
+
+Program = Expression [ "\n" Program ]? ;
+ 
+ or,
+
+program:
+     :defination
+     |expression
+     |EOF
+     ;
+
+(* Definition  - keyword :-> fn forllowed by function name which is ideantifier , open and close parenthesis and optional parameter list *)
+definition ::= "fn" identifier "(" [parameter_list] ")"
+
+        or,
+
+definition
+  : 'fn' ID '(' parameter-list? ')' expression
+  ;
+
+(* Parameter list is a comma-separated list of IDs enclosed in parentheses *)
+parameter-list = "(" { ID { "," ID } } ")" ;
+
+        or,
+
+parameter_list
+   :ID ( ' , ' ID )*
+   ;
+
+(* An expression can be a binary expression, prefix expression, or primary expression *)
+experession
+   : binary-expression
+   |prefix-expression
+   |primary-expression
+   ;
+
+(* Prefix expression is an expression preceded by '~' *)
+prefix-experession
+   :'~' primary-expression
+   ;
+
+(* Binary expression consists of two expressions separated by a binary operator *)
+binary-expression = expression ( "&" | "|" ) expression ;
+
+        or,
+
+binary-expression
+  : expression ( '&' | '|' ) expression
+  ;
+
+(* Primary expression can be an ID, a boolean literal, or a function application *)
+primary-expression = ID | boolean-literal | function-application | "(" expression ")" ;
+
+        or, 
+primary-expression
+  : ID
+  | boolean-literal
+  | function-application
+  | '(' expression ')'
+  ;
+
+(* Boolean Literal -> in our code we use boolean keywords like "true or false" *)
+boolean_literal ::= "true" | "false"
+
+        or,
+
+boolean-literal
+  : 'true'
+  | 'false'
+  ;
+
+(* Function application consists of an ID followed by zero or more comma-separated expressions in parentheses *)
+function-application = ID "(" { expression { "," expression } } ")" ;
+
+        or,
+
+function-application
+  : ID '(' ( expression ( ',' expression )* )? ')'
+  ;
+
+
+(* An ID starts with a letter or underscore, followed by letters, digits, underscores, or hyphens *)
+ID
+  : LETTER ( LETTER | DIGIT | '_' | '-' )*
+  ;
+
+
+/***
+        (we can write this away as well )
+        (* An integer is a sequence which is one or more digits. *)
+        INTEGER = Digit { Digit } ;
+
+        (* Digits range from '0' to '9'. *)
+        Digit = "0" .. "9" ;
+**/
+
+LETTER
+  : [a-zA-Z_] 
+  ;
+     
+DIGIT
+  : [0-9]
+  ;
+(* Whitespace is optional and can include spaces, tabs, carriage returns, newlines and comment*)
+WS
+  : [ \t\n\r]+ -> skip
+  ;
+
+COMMENT
+  : '#' ~[\r\n]* -> skip
+  ;
